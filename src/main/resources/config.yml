@@ -1,0 +1,5 @@
+## TimedWhitelist
+
+prefix: "[TimedWhitelist] "
+whitelist-time: 30
+kick-message: "You need to rewhitelist yourself! discord.gg/xXxXxXx"
