@@ -1,6 +1,10 @@
 package cf.towsifkafi.timedwhitelist;
 
+import cf.towsifkafi.timedwhitelist.Commands.Reload;
+import cf.towsifkafi.timedwhitelist.Commands.ResetPlayer;
+import cf.towsifkafi.timedwhitelist.Events.OnJoinEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +25,8 @@ public final class Timedwhitelist extends JavaPlugin {
 
         PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new OnJoinEvent(), this);
-
+        getCommand("twreload").setExecutor(new Reload());
+        getCommand("twresetplayer").setExecutor(new ResetPlayer());
 
     }
 
@@ -29,6 +34,20 @@ public final class Timedwhitelist extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         this.util.log("&c&lTimedwhitelist has been disabled!");
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+
+        saveDefaultConfig();
+        FileConfiguration config = getConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
+    }
+
+    public static String getPrefix() {
+        return getInstance().getConfig().getString("prefix");
     }
 
 

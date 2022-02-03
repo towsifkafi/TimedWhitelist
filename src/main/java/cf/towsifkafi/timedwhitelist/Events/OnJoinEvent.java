@@ -1,7 +1,10 @@
-package cf.towsifkafi.timedwhitelist;
+package cf.towsifkafi.timedwhitelist.Events;
 
+import cf.towsifkafi.timedwhitelist.Timedwhitelist;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -9,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -58,7 +63,11 @@ public class OnJoinEvent implements Listener {
                 };
 
                 if(unixTime > playerData.getInt("settings.lastdate")) {
-                    event.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("kick-message")));
+
+                    ConfigurationSection kickConfig = plugin.getConfig().getConfigurationSection("kick");
+
+                    event.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getConfigurationSection("kick").getString("kick-message")));
+
                 }
 
                 playerData.save(f);

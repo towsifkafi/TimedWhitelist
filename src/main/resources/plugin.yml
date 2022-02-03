@@ -4,3 +4,11 @@ main: cf.towsifkafi.timedwhitelist.Timedwhitelist
 api-version: 1.18
 authors: [ TowsifKafi ]
 description: A Whitelisting plugin that will automaticly prevent an player from joining after a specific time
+commands:
+  twreload:
+    usage: /<command>
+    description: Reload TimedWhitelist
+
+  twresetplayer:
+    usage: /<command> <player>
+    description: Reset Player Time Limit
