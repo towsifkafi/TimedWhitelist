@@ -28,3 +28,12 @@ jobs:
       uses: actions/upload-artifact@v2.3.1
       with:
         path: target/timedwhitelist-1.0-SNAPSHOT.jar
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.REPO_TOKEN }}
+        file: target/timedwhitelist-1.0-SNAPSHOT.jar
+        asset_name: TimeWhitelist
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Automaticly generated release after push to master"
