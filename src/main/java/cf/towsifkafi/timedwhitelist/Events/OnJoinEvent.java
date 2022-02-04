@@ -22,61 +22,69 @@ public class OnJoinEvent implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        plugin = Timedwhitelist.getInstance();
-        String playerName = event.getPlayer().getName();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TimedWhitelist").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + playerName + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+        if(!event.getPlayer().hasPermission("timedwhitelist.bypass")) {
 
-        //When the player file is created for the first time...
-        if (!f.exists()) {
-            try {
+            plugin = Timedwhitelist.getInstance();
+            String playerName = event.getPlayer().getName();
+            File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TimedWhitelist").getDataFolder(), File.separator + "PlayerDatabase");
+            File f = new File(userdata, File.separator + playerName + ".yml");
+            FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
 
-                playerData.createSection("settings");
-                long unixTime = System.currentTimeMillis() / 1000L;
-                playerData.set("settings.firstjoin", unixTime);
-                playerData.set("settings.lastjoin", unixTime);
-                long time = plugin.getConfig().getInt("whitelist-time");
-                playerData.set("settings.whitelisttime", time);
-                playerData.set("settings.lastdate", unixTime+time);
-                playerData.set("settings.addDefaultTime", true);
+            //When the player file is created for the first time...
+            if (!f.exists()) {
+                try {
+
+                    playerData.createSection("settings");
+                    long unixTime = System.currentTimeMillis() / 1000L;
+                    playerData.set("settings.firstjoin", unixTime);
+                    playerData.set("settings.lastjoin", unixTime);
+
+                    //long time = plugin.getConfig().getInt("whitelist-time"); #"1d 5h 2m 3s"
+                    long time = plugin.util.getFromStringTime(plugin.getConfig().getString("whitelist-time"));
+
+                    playerData.set("settings.whitelisttime", time);
+                    playerData.set("settings.lastdate", unixTime+time);
+                    playerData.set("settings.addDefaultTime", true);
 
 
-                playerData.save(f);
-            } catch (IOException exception) {
+                    playerData.save(f);
+                } catch (IOException exception) {
 
-                exception.printStackTrace();
-            }
-        } else {
+                    exception.printStackTrace();
+                }
+            } else {
 
-            try {
+                try {
 
-                long unixTime = System.currentTimeMillis() / 1000L;
-                playerData.set("settings.lastjoin", unixTime);
+                    long unixTime = System.currentTimeMillis() / 1000L;
+                    playerData.set("settings.lastjoin", unixTime);
 
-                long time = plugin.getConfig().getInt("whitelist-time");
-                if(playerData.getBoolean("settings.addDefaultTime")) {
-                    playerData.set("settings.lastdate", playerData.getInt("settings.firstjoin")+time);
-                } else {
-                    int configTime = playerData.getInt("settings.whitelisttime");
-                    playerData.set("settings.lastdate", playerData.getInt("settings.firstjoin")+configTime);
-                };
+                    long time = plugin.util.getFromStringTime(plugin.getConfig().getString("whitelist-time"));
+                    if(playerData.getBoolean("settings.addDefaultTime")) {
+                        playerData.set("settings.lastdate", playerData.getInt("settings.firstjoin")+time);
+                    } else {
+                        int configTime = playerData.getInt("settings.whitelisttime");
+                        playerData.set("settings.lastdate", playerData.getInt("settings.firstjoin")+configTime);
+                    };
 
-                if(unixTime > playerData.getInt("settings.lastdate")) {
+                    if(unixTime > playerData.getInt("settings.lastdate")) {
 
-                    ConfigurationSection kickConfig = plugin.getConfig().getConfigurationSection("kick");
+                        ConfigurationSection kickConfig = plugin.getConfig().getConfigurationSection("kick");
 
-                    event.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getConfigurationSection("kick").getString("kick-message")));
+                        event.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getConfigurationSection("kick").getString("kick-message")));
 
+                    }
+
+                    playerData.save(f);
+                } catch (IOException exception) {
+
+                    exception.printStackTrace();
                 }
 
-                playerData.save(f);
-            } catch (IOException exception) {
-
-                exception.printStackTrace();
             }
 
         }
+
 
     }
 

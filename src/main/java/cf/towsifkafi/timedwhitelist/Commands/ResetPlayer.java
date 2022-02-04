@@ -15,7 +15,7 @@ public class ResetPlayer implements CommandExecutor {
         Timedwhitelist plugin = Timedwhitelist.getInstance();
         CommandSender p =  sender;
         if(args.length == 0) {
-            p.sendMessage(plugin.getPrefix() + "§c/twresetplayer <player>");
+            p.sendMessage(plugin.getPrefix() + "§c/twreset <player>");
         } else {
             if (p.hasPermission("timedwhitelist.reset")) {
 

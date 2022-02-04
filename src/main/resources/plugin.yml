@@ -9,6 +9,6 @@ commands:
     usage: /<command>
     description: Reload TimedWhitelist
 
-  twresetplayer:
+  twreset:
     usage: /<command> <player>
     description: Reset Player Time Limit

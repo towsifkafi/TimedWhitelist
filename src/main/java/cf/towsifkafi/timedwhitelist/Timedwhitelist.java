@@ -26,7 +26,7 @@ public final class Timedwhitelist extends JavaPlugin {
         PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new OnJoinEvent(), this);
         getCommand("twreload").setExecutor(new Reload());
-        getCommand("twresetplayer").setExecutor(new ResetPlayer());
+        getCommand("twreset").setExecutor(new ResetPlayer());
 
     }
 
