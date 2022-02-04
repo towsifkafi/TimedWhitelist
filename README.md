@@ -15,7 +15,7 @@ whitelist-time: "0d 0h 0m 30s"
 
 kick:
   kick-message: "You need to rewhitelist yourself! discord.gg/xXxXxXx"
-  
+ 
 ```
 
 ### Commands
