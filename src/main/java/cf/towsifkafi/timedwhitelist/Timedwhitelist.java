@@ -17,7 +17,6 @@ public final class Timedwhitelist extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         setInstance(this);
-        getConfig().options().copyDefaults();
         saveDefaultConfig();
 
         this.util = new Utils(this);
