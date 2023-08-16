@@ -25,7 +25,7 @@ jobs:
       - run:
           command: |
             mkdir -p /tmp/jars
-            cp *.jar /tmp/jars
+            cp target/*.jar /tmp/jars
       - store_artifacts:
           path: /tmp/jars
 
